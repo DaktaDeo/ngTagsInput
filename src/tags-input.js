@@ -189,8 +189,27 @@ tagsInput.directive('tagsInput', function($timeout, $document, $window, tagsInpu
                 keyProperty: [String, ''],
                 allowLeftoverText: [Boolean, false],
                 addFromAutocompleteOnly: [Boolean, false],
-                spellcheck: [Boolean, true]
+                spellcheck: [Boolean, true],
+                txtColorProperty: [String,'color_txt'],
+                bgColorProperty: [String,'color_bg']
             });
+
+            //support multiple colours and styles
+            $scope.getInlineStyles = function (tag) {
+                var bg, txt;
+                var options = $scope.options;
+
+                txt = tag[options.txtColorProperty];
+                if (txt != null) {
+                    txt = 'color:' + txt  + ' !important;';
+                }
+                bg = tag[options.bgColorProperty];
+                if (bg != null) {
+                    bg = 'background-color:' + bg  + ' !important;';
+                }
+
+                return tiUtil.safeToString('' + txt + bg);
+            };
 
             $scope.tagList = new TagList($scope.options, $scope.events,
                 tiUtil.handleUndefinedResult($scope.onTagAdding, true),

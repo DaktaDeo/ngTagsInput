@@ -12,6 +12,8 @@
  *    $query. The result of the expression must be a promise that eventually resolves to an array of strings.
  * @param {string=} [template=NA] URL or id of a custom template for rendering each element of the autocomplete list.
  * @param {string=} [displayProperty=tagsInput.displayText] Property to be rendered as the autocomplete label.
+ * @param {string=} [bgColorProperty=NA] Background color of the label
+ * @param {string=} [txtColorProperty=NA] Background color of the label
  * @param {number=} [debounceDelay=100] Amount of time, in milliseconds, to wait before evaluating the expression in
  *    the source option after the last keystroke.
  * @param {number=} [minLength=3] Minimum number of characters that must be entered before evaluating the expression
@@ -147,7 +149,9 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
                 loadOnEmpty: [Boolean, false],
                 loadOnFocus: [Boolean, false],
                 selectFirstMatch: [Boolean, true],
-                displayProperty: [String, '']
+                displayProperty: [String, ''],
+                txtColorProperty: [String,'color_txt'],
+                bgColorProperty: [String,'color_bg']
             });
 
             $scope.suggestionList = new SuggestionList($scope.source, $scope.options, $scope.events);

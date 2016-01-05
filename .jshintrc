@@ -13,6 +13,7 @@
     "newcap": true,
     "latedef": false,
     "trailing": true,
+    "devel": true,
     "globals": {
         "angular": true,
         "module": true,
