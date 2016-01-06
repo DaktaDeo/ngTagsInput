@@ -5,7 +5,7 @@
  * Copyright (c) 2013-2016 Michael Benford
  * License: MIT
  *
- * Generated at 2016-01-05 20:41:35 +0100
+ * Generated at 2016-01-06 15:17:51 +0100
  */
 (function() {
 'use strict';
@@ -675,9 +675,9 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
                 minLength: [Number, 3],
                 highlightMatchedText: [Boolean, true],
                 maxResultsToShow: [Number, 10],
-                loadOnDownArrow: [Boolean, false],
-                loadOnEmpty: [Boolean, false],
-                loadOnFocus: [Boolean, false],
+                loadOnDownArrow: [Boolean, true],
+                loadOnEmpty: [Boolean, true],
+                loadOnFocus: [Boolean, true],
                 selectFirstMatch: [Boolean, true],
                 displayProperty: [String, ''],
                 txtColorProperty: [String,'color_txt'],
