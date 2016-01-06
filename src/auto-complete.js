@@ -199,6 +199,23 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
                 return added;
             };
 
+            //support multiple colours and styles
+            scope.getInlineStyles = function (tag) {
+                var bg, txt;
+                var options = scope.options;
+
+                txt = tag[options.txtColorProperty  || options.tagsInput.txtColorProperty];
+                if (txt != null) {
+                    txt = 'color:' + txt  + ' !important;';
+                }
+                bg = tag[options.bgColorProperty  || options.tagsInput.bgColorProperty ];
+                if (bg != null) {
+                    bg = 'background-color:' + bg  + ' !important;';
+                }
+
+                return tiUtil.safeToString('' + txt + bg);
+            };
+
             scope.track = function(item) {
                 return item[options.tagsInput.keyProperty || options.tagsInput.displayProperty];
             };

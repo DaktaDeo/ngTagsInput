@@ -5,7 +5,7 @@
  * Copyright (c) 2013-2016 Michael Benford
  * License: MIT
  *
- * Generated at 2016-01-06 15:17:51 +0100
+ * Generated at 2016-01-06 15:59:05 +0100
  */
 (function() {
 'use strict';
@@ -729,6 +729,23 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
                 return added;
             };
 
+            //support multiple colours and styles
+            scope.getInlineStyles = function (tag) {
+                var bg, txt;
+                var options = scope.options;
+
+                txt = tag[options.txtColorProperty  || options.tagsInput.txtColorProperty];
+                if (txt != null) {
+                    txt = 'color:' + txt  + ' !important;';
+                }
+                bg = tag[options.bgColorProperty  || options.tagsInput.bgColorProperty ];
+                if (bg != null) {
+                    bg = 'background-color:' + bg  + ' !important;';
+                }
+
+                return tiUtil.safeToString('' + txt + bg);
+            };
+
             scope.track = function(item) {
                 return item[options.tagsInput.keyProperty || options.tagsInput.displayProperty];
             };
@@ -1164,7 +1181,7 @@ tagsInput.run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put('ngTagsInput/auto-complete.html',
-    "<div class=\"autocomplete\" ng-if=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" ng-repeat=\"item in suggestionList.items track by track(item)\" ng-class=\"{selected: item == suggestionList.selected}\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\"><ti-autocomplete-match data=\"::item\"></ti-autocomplete-match></li></ul></div>"
+    "<div class=\"autocomplete\" ng-if=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" ng-repeat=\"item in suggestionList.items track by track(item)\" ng-class=\"{selected: item == suggestionList.selected}\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\"><span class=\"swatch\" style=\"{{getInlineStyles(item)}}\"></span><ti-autocomplete-match data=\"::item\"></ti-autocomplete-match></li></ul></div>"
   );
 
   $templateCache.put('ngTagsInput/auto-complete-match.html',

@@ -5,6 +5,7 @@
         ng-class="{selected: item == suggestionList.selected}"
         ng-click="addSuggestionByIndex($index)"
         ng-mouseenter="suggestionList.select($index)">
+      <span class="swatch" style="{{getInlineStyles(item)}}"></span>
       <ti-autocomplete-match data="::item"></ti-autocomplete-match>
     </li>
   </ul>
