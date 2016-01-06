@@ -8,5 +8,12 @@
       <span class="swatch" style="{{getInlineStyles(item)}}"></span>
       <ti-autocomplete-match data="::item"></ti-autocomplete-match>
     </li>
+      <li class="helptext" ng-if="suggestionList.total > 10">
+          top <strong>{{suggestionList.items.length}}</strong> results shown of <strong>{{suggestionList.total}}</strong> matches
+      </li>
+
+      <li class="helptext" ng-if="suggestionList.total < 1">
+          no matches
+      </li>
   </ul>
 </div>

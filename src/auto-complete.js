@@ -53,6 +53,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
         self.reset = function() {
             lastPromise = null;
 
+            self.total = 0;
             self.items = [];
             self.visible = false;
             self.index = -1;
@@ -81,6 +82,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
 
                 items = tiUtil.makeObjectArray(items.data || items, getTagId());
                 items = getDifference(items, tags);
+                self.total = items.length;
                 self.items = items.slice(0, options.maxResultsToShow);
 
                 if (self.items.length > 0) {
@@ -88,6 +90,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
                 }
                 else {
                     self.reset();
+                    self.visible=true; //add support for a "no matches" sign
                 }
             });
         }, options.debounceDelay);
