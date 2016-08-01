@@ -6,3 +6,5 @@ coverage/
 *.log
 #build/
 sauce.json
+templates/auto-complete.html.orig
+templates/tags-input.html.orig
