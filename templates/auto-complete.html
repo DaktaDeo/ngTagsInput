@@ -2,11 +2,11 @@
   <ul class="suggestion-list">
     <li class="suggestion-item"
         ng-repeat="item in suggestionList.items track by track(item)"
-        ng-class="{selected: item == suggestionList.selected}"
+        ng-class="getSuggestionClass(item, $index)"
         ng-click="addSuggestionByIndex($index)"
         ng-mouseenter="suggestionList.select($index)">
       <span class="swatch" style="{{getInlineStyles(item)}}"></span>
-      <ti-autocomplete-match data="::item"></ti-autocomplete-match>
+      <ti-autocomplete-match scope="templateScope" data="::item"></ti-autocomplete-match>
     </li>
       <li class="helptext" ng-if="suggestionList.total > 10">
           top <strong>{{suggestionList.items.length}}</strong> results shown of <strong>{{suggestionList.total}}</strong> matches
