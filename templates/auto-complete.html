@@ -3,6 +3,7 @@
     <li class="suggestion-item"
         pagination-id="suggestionList.id"
         dir-paginate="item in suggestionList.items | itemsPerPage: suggestionList.paging"
+        current-page="suggestionList.currentPage"
         ng-class="getSuggestionClass(item, $index)"
         ng-click="addSuggestionByIndex($index)"
         ng-mouseenter="suggestionList.select($index)">

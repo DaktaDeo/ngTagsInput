@@ -57,6 +57,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
         self.reset = function() {
             lastPromise = null;
 
+            self.currentPage=1;
             self.total = 0;
             self.items = [];
             self.visible = false;
@@ -88,6 +89,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
                 items = getDifference(items, tags);
                 self.total = items.length;
                 self.paging = options.maxResultsToShow;
+                self.currentPage=1;
                 self.items = items;
                 self.id ="dendeze";
                 // self.items = items.slice(0, options.maxResultsToShow);
@@ -115,6 +117,7 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
             else if (index >= self.items.length) {
                 index = 0;
             }
+
             self.index = index;
             self.selected = self.items[index];
             events.trigger('suggestion-selected', index);
@@ -197,7 +200,13 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
             scope.templateScope = tagsInput.getTemplateScope();
 
             scope.addSuggestionByIndex = function(index) {
-                suggestionList.select(index);
+                // console.log(suggestionList.currentPage);
+                // console.log(suggestionList.paging);
+
+                var shift = (suggestionList.currentPage-1) * suggestionList.paging;
+                suggestionList.select(index+shift);
+                // console.log("shift: " + shift );
+
                 scope.addSuggestion();
             };
 
@@ -235,6 +244,8 @@ tagsInput.directive('autoComplete', function($document, $timeout, $sce, $q, tags
 
             scope.getSuggestionClass = function(item, index) {
                 var selected = item === suggestionList.selected;
+                var shift = (suggestionList.currentPage-1) * suggestionList.paging;
+                index = index+shift;
                 return [
                     scope.matchClass({$match: item, $index: index, $selected: selected}),
                     { selected: selected }

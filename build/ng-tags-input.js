@@ -5,7 +5,7 @@
  * Copyright (c) 2013-2016 Michael Benford
  * License: MIT
  *
- * Generated at 2016-08-01 14:14:25 +0200
+ * Generated at 2016-08-13 23:53:30 +0200
  */
 (function() {
 'use strict';
@@ -616,6 +616,7 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
         self.reset = function() {
             lastPromise = null;
 
+            self.currentPage=1;
             self.total = 0;
             self.items = [];
             self.visible = false;
@@ -647,6 +648,7 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
                 items = getDifference(items, tags);
                 self.total = items.length;
                 self.paging = options.maxResultsToShow;
+                self.currentPage=1;
                 self.items = items;
                 self.id ="dendeze";
                 // self.items = items.slice(0, options.maxResultsToShow);
@@ -674,6 +676,7 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
             else if (index >= self.items.length) {
                 index = 0;
             }
+
             self.index = index;
             self.selected = self.items[index];
             events.trigger('suggestion-selected', index);
@@ -756,7 +759,13 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
             scope.templateScope = tagsInput.getTemplateScope();
 
             scope.addSuggestionByIndex = function(index) {
-                suggestionList.select(index);
+                // console.log(suggestionList.currentPage);
+                // console.log(suggestionList.paging);
+
+                var shift = (suggestionList.currentPage-1) * suggestionList.paging;
+                suggestionList.select(index+shift);
+                // console.log("shift: " + shift );
+
                 scope.addSuggestion();
             };
 
@@ -794,6 +803,8 @@ tagsInput.directive('autoComplete', ["$document", "$timeout", "$sce", "$q", "tag
 
             scope.getSuggestionClass = function(item, index) {
                 var selected = item === suggestionList.selected;
+                var shift = (suggestionList.currentPage-1) * suggestionList.paging;
+                index = index+shift;
                 return [
                     scope.matchClass({$match: item, $index: index, $selected: selected}),
                     { selected: selected }
@@ -1241,7 +1252,7 @@ tagsInput.run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put('ngTagsInput/auto-complete.html',
-    "<div class=\"autocomplete\" ng-if=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" pagination-id=\"suggestionList.id\" dir-paginate=\"item in suggestionList.items | itemsPerPage: suggestionList.paging\" ng-class=\"getSuggestionClass(item, $index)\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\"><span class=\"swatch\" style=\"{{getInlineStyles(item)}}\"></span><ti-autocomplete-match scope=\"templateScope\" data=\"::item\"></ti-autocomplete-match></li><li class=\"helptext pager\" ng-if=\"suggestionList.total > 10\"><dir-pagination-controls pagination-id=\"suggestionList.id\" max-size=\"5\"></dir-pagination-controls></li><li class=\"helptext\" ng-if=\"suggestionList.total < 1\">no matches, press 'enter' to create</li><li></li></ul></div>"
+    "<div class=\"autocomplete\" ng-if=\"suggestionList.visible\"><ul class=\"suggestion-list\"><li class=\"suggestion-item\" pagination-id=\"suggestionList.id\" dir-paginate=\"item in suggestionList.items | itemsPerPage: suggestionList.paging\" current-page=\"suggestionList.currentPage\" ng-class=\"getSuggestionClass(item, $index)\" ng-click=\"addSuggestionByIndex($index)\" ng-mouseenter=\"suggestionList.select($index)\"><span class=\"swatch\" style=\"{{getInlineStyles(item)}}\"></span><ti-autocomplete-match scope=\"templateScope\" data=\"::item\"></ti-autocomplete-match></li><li class=\"helptext pager\" ng-if=\"suggestionList.total > 10\"><dir-pagination-controls pagination-id=\"suggestionList.id\" max-size=\"5\"></dir-pagination-controls></li><li class=\"helptext\" ng-if=\"suggestionList.total < 1\">no matches, press 'enter' to create</li><li></li></ul></div>"
   );
 
   $templateCache.put('ngTagsInput/auto-complete-match.html',
